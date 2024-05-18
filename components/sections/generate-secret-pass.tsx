@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Container from '../ui/container';
+import Container, { ContainerHeader } from '../ui/container';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -21,13 +21,13 @@ const GenerateSecretPass = () => {
     <Container
       extraTopPadding
       className="bg-secondary xl:rounded-b-3xl min-h-screen xl:min-h-[90vh] text-center ">
-      <h1 className="max-w-2xl mx-auto pb-10">
+      <ContainerHeader className="max-w-3xl mx-auto py-10">
         Share Secret Texts Confidently with{' '}
         <span className="text-primary underline decoration-wavy decoration-destructive text-nowrap">
-          Secret Pass
+          SecretPass
         </span>
-      </h1>
-      <div className="max-w-2xl mx-auto space-y-5">
+      </ContainerHeader>
+      <div className="max-w-3xl mx-auto space-y-5">
         <Textarea
           className="shadow-inner min-h-[250px]"
           placeholder="Enter your secret & generate a shareable link"
