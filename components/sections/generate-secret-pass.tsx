@@ -25,6 +25,7 @@ const GenerateSecretPass = () => {
   const copyToClipboard = (content: string) => {
     navigator.clipboard.writeText(content);
     setCopied(true);
+    toast('Copied to clipboard');
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -59,7 +60,7 @@ const GenerateSecretPass = () => {
       );
 
       if (secretLink.success) {
-        setFormData({ ...formData, secretLink: secretLink.data });
+        setFormData({ ...initialFormData, secretLink: secretLink.data });
       } else {
         toast('Something went wrong! Please try again later.');
       }
@@ -77,7 +78,22 @@ const GenerateSecretPass = () => {
           SecretPass
         </span>
       </ContainerHeader>
+
       <div className="max-w-3xl mx-auto space-y-5">
+        <div>
+          {formData.secretLink && (
+            <p
+              className="text-left bg-green-800 py-2 px-3 rounded-md text-primary-foreground/80 hover:text-primary-foreground hover:bg-green-900 flex justify-between items-center cursor-pointer gap-x-5"
+              onClick={() => {
+                copyToClipboard(formData.secretLink);
+              }}>
+              <span className=" overflow-auto">{formData.secretLink}</span>
+              <span className="bg-white/20 hover:bg-white/40 p-2 rounded-md text-primary-foreground">
+                {copied ? <LuCopyCheck /> : <LuCopy />}
+              </span>
+            </p>
+          )}
+        </div>
         <div>
           <Textarea
             className="shadow-inner min-h-[250px]"
@@ -107,20 +123,6 @@ const GenerateSecretPass = () => {
             disabled={loading}>
             Generate
           </Button>
-        </div>
-        <div>
-          {formData.secretLink && (
-            <p
-              className="text-left bg-green-800 py-2 px-3 rounded-md text-primary-foreground/80 hover:text-primary-foreground hover:bg-green-900 flex justify-between items-center cursor-pointer gap-x-5"
-              onClick={() => {
-                copyToClipboard(formData.secretLink);
-              }}>
-              <span className=" overflow-auto">{formData.secretLink}</span>
-              <span className="bg-white/20 hover:bg-white/40 p-2 rounded-md text-primary-foreground">
-                {copied ? <LuCopyCheck /> : <LuCopy />}
-              </span>
-            </p>
-          )}
         </div>
       </div>
     </Container>

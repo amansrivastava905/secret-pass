@@ -14,6 +14,7 @@ export const generateSecret = async (
 
     const record = await db.secret.create({
       data: {
+        isProtected: password.length > 0,
         encryptedMessage: encryptedMessage,
       },
     });
