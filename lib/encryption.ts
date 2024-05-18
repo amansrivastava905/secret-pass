@@ -8,7 +8,7 @@ const generateIV = () => {
 };
 
 // Encrypt a message with provided password
-export const encrypt = (message: string, password: string) => {
+export const encrypt = async (message: string, password: string) => {
   // generate IV
   const iv = generateIV();
 
@@ -33,10 +33,10 @@ export const encrypt = (message: string, password: string) => {
 };
 
 // Decrypt an encrypted message with provided password
-export const decrypt = (
+export const decrypt = async (
   encryptedMessage: string,
   password: string,
-): { success: boolean; message: string } => {
+): Promise<{ success: boolean; message: string }> => {
   try {
     // split IV and encrypted message
     const [ivHex, encrypted] = encryptedMessage.split(':');
