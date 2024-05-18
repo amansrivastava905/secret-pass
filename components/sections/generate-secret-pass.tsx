@@ -6,7 +6,7 @@ import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { LuCopy, LuCopyCheck } from 'react-icons/lu';
-import { generateSecret } from '@/services/generate-secret';
+import { generateSecret } from '@/services/secret';
 import ErrorLabel from '../ui/error-label';
 import { toast } from 'sonner';
 
@@ -55,12 +55,12 @@ const GenerateSecretPass = () => {
     if (isValidated()) {
       setLoading(true);
       const secretLink = await generateSecret(
-        formData.message,
-        formData.password,
+        formData.message.trim(),
+        formData.password.trim(),
       );
 
       if (secretLink.success) {
-        setFormData({ ...initialFormData, secretLink: secretLink.data });
+        setFormData({ ...initialFormData, secretLink: secretLink.data || '' });
       } else {
         toast('Something went wrong! Please try again later.');
       }
