@@ -9,11 +9,14 @@ import { LuCopy, LuCopyCheck } from 'react-icons/lu';
 import { generateSecret } from '@/services/secret';
 import ErrorLabel from '../ui/error-label';
 import { toast } from 'sonner';
+import { RadioGroup } from '../ui/radio-group';
+import StyledRadio from '../ui/styled-radio';
 
 const initialFormData = {
   message: '',
   password: '',
   secretLink: '',
+  expiryDuration: '15',
 };
 
 const GenerateSecretPass = () => {
@@ -57,6 +60,7 @@ const GenerateSecretPass = () => {
       const secretLink = await generateSecret(
         formData.message.trim(),
         formData.password.trim(),
+        formData.expiryDuration,
       );
 
       if (secretLink.success) {
@@ -107,6 +111,18 @@ const GenerateSecretPass = () => {
             <ErrorLabel>{errors.message}</ErrorLabel>
           )}
         </div>
+        <RadioGroup
+          defaultValue="15"
+          className="grid grid-cols-5 gap-x-2"
+          onValueChange={(value) => {
+            setFormData({ ...formData, expiryDuration: value });
+          }}>
+          <StyledRadio value="15" label="15 mins" />
+          <StyledRadio value="60" label="1 hr" />
+          <StyledRadio value="360" label="6 hrs" />
+          <StyledRadio value="1440" label="1 day" />
+          <StyledRadio value="4320" label="3 days" />
+        </RadioGroup>
         <div className="w-full sm:flex space-y-5 sm:space-y-0 gap-5">
           <Input
             className="shadow-inner"

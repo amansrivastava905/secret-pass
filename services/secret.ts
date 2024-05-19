@@ -8,6 +8,7 @@ import { Secret } from '@prisma/client';
 export const generateSecret = async (
   message: string,
   password: string,
+  expiryDuration: string,
 ): Promise<CommonResponse<string | null>> => {
   try {
     const encryptedMessage = await encrypt(message, password);
@@ -16,6 +17,7 @@ export const generateSecret = async (
       data: {
         isProtected: password.length > 0,
         encryptedMessage: encryptedMessage,
+        age: +expiryDuration,
       },
     });
 
@@ -71,7 +73,6 @@ export const expireSecret = async (
         isRead: true,
       },
     });
-    console.log('Record with ID: ' + id + ' read and hence expired now');
     return {
       success: true,
       data: 'Successfully expired secret',
