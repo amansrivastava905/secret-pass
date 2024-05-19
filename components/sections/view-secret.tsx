@@ -9,6 +9,9 @@ import ErrorLabel from '../ui/error-label';
 import { decrypt } from '@/lib/encryption';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { Skeleton } from '../ui/skeleton';
+import Link from 'next/link';
+import { route } from '@/constants/route.constant';
 
 const ViewSecret: React.FC<{ id: string }> = ({ id }) => {
   const [secretObj, setSecretObj] = React.useState<Secret>();
@@ -41,7 +44,7 @@ const ViewSecret: React.FC<{ id: string }> = ({ id }) => {
     }
   };
 
-  const handleViewPassword = async () => {
+  const handleViewSecret = async () => {
     if (!password.trim()) {
       setPasswordError('Password is a required field');
     } else {
@@ -76,7 +79,13 @@ const ViewSecret: React.FC<{ id: string }> = ({ id }) => {
 
   const handleComponentRender = () => {
     if (initialLoading && !secretObj) {
-      return <div>Loading...</div>;
+      return (
+        <div className="space-y-2">
+          <Skeleton className="h-5" />
+          <Skeleton className="h-5" />
+          <Skeleton className="h-5" />
+        </div>
+      );
     } else if (secretObj && !expired) {
       if (!secretObj.isProtected && decrytedMessage) {
         return (
@@ -97,8 +106,8 @@ const ViewSecret: React.FC<{ id: string }> = ({ id }) => {
                   setPassword(e.target.value);
                 }}
               />
-              <Button className="w-full sm:w-40" onClick={handleViewPassword}>
-                View Password
+              <Button className="w-full sm:w-40" onClick={handleViewSecret}>
+                View Secret
               </Button>
             </div>
             {passwordError && <ErrorLabel>{passwordError}</ErrorLabel>}
@@ -117,18 +126,14 @@ const ViewSecret: React.FC<{ id: string }> = ({ id }) => {
   };
 
   return (
-    <Container
-      extraTopPadding
-      className="bg-secondary xl:rounded-b-3xl min-h-screen xl:min-h-[90vh] text-center">
-      <ContainerHeader className="max-w-3xl mx-auto py-10">
+    <Container extraTopPadding className="sm:text-center">
+      <ContainerHeader className="py-10">
         View{' '}
-        <span className="text-primary underline decoration-wavy decoration-destructive text-nowrap">
+        <span className="text-primary underline decoration-destructive text-nowrap">
           SecretPass
         </span>
       </ContainerHeader>
-      <div className="max-w-3xl mx-auto space-y-5">
-        {handleComponentRender()}
-      </div>
+      <div className="space-y-5">{handleComponentRender()}</div>
     </Container>
   );
 };

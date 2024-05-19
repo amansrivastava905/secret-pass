@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/sections/navbar';
 import { Toaster } from '@/components/ui/sonner';
+import Footer from '@/components/sections/footer';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -21,15 +22,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head />
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
+          'min-h-screen flex flex-col bg-background font-sans antialiased',
           fontSans.variable,
         )}>
-        <Navbar />
-        <main>{children}</main>
+        <div className="flex-1">
+          <Navbar />
+          <main className="mb-20">{children}</main>
+        </div>
+        <Footer />
         <Toaster />
       </body>
     </html>
